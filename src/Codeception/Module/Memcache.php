@@ -32,15 +32,15 @@ class Memcache extends \Codeception\Module
      */
     public $memcache = null;
 
-    protected $config = array('host' => 'localhost', 'port' => 11211);
+    protected $config = array('calss' => 'Memcache', 'host' => 'localhost', 'port' => 11211);
 
     public function _before(\Codeception\TestCase $test)
     {
-        if (class_exists('\Memcache')) {
+        if ($this->config['class'] == 'Memcache' && class_exists('Memcache')) {
             $this->memcache = new \Memcache;
             $this->memcache->close();
             $this->memcache->connect($this->config['host'], $this->config['port']);
-        } elseif (class_exists('\Memcached')) {
+        } elseif ($this->config['class'] == 'Memcached' && class_exists('Memcached')) {
             $this->memcache = new \Memcached;
             $this->memcache->addServer($this->config['host'], $this->config['port']);
         } else {
